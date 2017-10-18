@@ -18,7 +18,7 @@ public class Grafo {
 	public void addAresta(String idConta, String cliente1, String cliente2) {
 		Vertice v1 = new Vertice(cliente1, 1);
 		Vertice v2 = new Vertice(cliente2, 1);
-		Aresta novaAresta = new Aresta(idConta, v1, v2, 1);
+		Aresta novaAresta = new Aresta(idConta, v1, v2);
 
 		if (adj.containsKey(cliente1)) {
 			adj.get(cliente1).add(novaAresta);
@@ -69,7 +69,7 @@ public class Grafo {
 						}
 					}
 				}
-				System.out.println("dist: "+ distancia.get(fim));
+				//System.out.println("dist: "+ distancia.get(fim));
 				return caminho;
 			}
 			

@@ -77,6 +77,11 @@ public class App {
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
+		System.out.println("######################## meuCaso #############################");
+		load("casos/meuCaso.txt");
+		caminho = g.dijkstra(nodoInicial, nodoFinal);
+		printa(caminho);
+
 		System.out.println("\n----------------------------------------------------------------");
 		System.out.println("Programa concluído");
 		System.out.println("Autores:");
@@ -87,8 +92,12 @@ public class App {
 
 	public static void printa(Stack<Aresta> caminho) {
 		System.out.println("@De: " + nodoInicial + " @Para: " + nodoFinal);
-		while (!caminho.isEmpty()) {
-			System.out.println(caminho.pop());
+		if (caminho == null) {
+			System.out.println("Nao existe conexão");
+		} else {
+			while (!caminho.isEmpty()) {
+				System.out.println(caminho.pop());
+			}
 		}
 	}
 
