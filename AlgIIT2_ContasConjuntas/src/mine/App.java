@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * http://www.vogella.com/tutorials/JavaAlgorithmsDijkstra/article.html
@@ -23,7 +24,10 @@ public class App {
 
 	public static void main(String[] args) {
 		load("enunciadoTeste.txt");
-		System.out.println(g.dijkstra(nodoInicial, nodoFinal));
+		Stack<Aresta> caminho = g.dijkstra(nodoInicial, nodoFinal);
+		while(!caminho.isEmpty()) {
+			System.out.println(caminho.pop());
+		}
 		//g.printaMap();
 		System.out.println("finalizou");
 	}

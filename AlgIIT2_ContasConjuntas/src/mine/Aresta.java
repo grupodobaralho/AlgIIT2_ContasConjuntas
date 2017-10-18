@@ -35,7 +35,7 @@ public class Aresta {
 
 	@Override
 	public String toString() {
-		return idConta+ " " + verticeIda + " " + verticeSaida;
+		return idConta+ " (" + verticeIda + " " + verticeSaida + ")";
 	}
 
 }

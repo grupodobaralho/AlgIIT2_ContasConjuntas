@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class Grafo {
 
 	public Map<String, List<Aresta>> adj;
-	//public Map<String, Vertice> vertices;
 
 	public Grafo() {
 		adj = new HashMap<>();
 	}
 
 	public void addAresta(String idConta, String cliente1, String cliente2) {
-		Vertice v1 = new Vertice(cliente1, Integer.MAX_VALUE);
-		Vertice v2 = new Vertice(cliente2, Integer.MAX_VALUE);
+		Vertice v1 = new Vertice(cliente1, 1);
+		Vertice v2 = new Vertice(cliente2, 1);
 		Aresta novaAresta = new Aresta(idConta, v1, v2, 1);
 
 		if (adj.containsKey(cliente1)) {
@@ -25,7 +25,6 @@ public class Grafo {
 		} else {
 			adj.put(cliente1, new ArrayList<Aresta>());
 			adj.get(cliente1).add(novaAresta);
-			//vertices.put(cliente1, v1);
 		}
 
 		if (adj.containsKey(cliente2)) {
@@ -33,12 +32,11 @@ public class Grafo {
 		} else {
 			adj.put(cliente2, new ArrayList<Aresta>());
 			adj.get(cliente2).add(novaAresta);
-			//vertices.put(cliente2, v2);
 		}
 
 	}
 
-	public List<String> dijkstra(String inicio, String fim) {
+	public Stack<Aresta> dijkstra(String inicio, String fim) {
 		Map<String, Integer> distancia = new HashMap<>();
 		Map<String, Vertice> anterior = new HashMap<>();
 		PriorityQueue<Vertice> heap = new PriorityQueue<>();
@@ -55,12 +53,21 @@ public class Grafo {
 		}
 
 		while (!heap.isEmpty()) {
+			
 			Vertice menor = heap.poll();
+			
+			//Se chegou ao fim, junta o caminho de arestas e retorna
 			if(menor.getCliente().equals(fim)) {
-				List<String> caminho = new ArrayList<String>();
+				Stack<Aresta> caminho = new Stack<>();
 				while(anterior.get(menor.getCliente()) != null) {
-					caminho.add(menor.getCliente());
-					menor = anterior.get(menor.getCliente());
+					for(Aresta a : adj.get(menor.getCliente())) {						
+						if(a.getVerticeIda().getCliente().equals(anterior.get(menor.getCliente()).getCliente()) ||
+								a.getVerticeSaida().getCliente().equals(anterior.get(menor.getCliente()).getCliente())) {
+							caminho.push(a);
+							menor = anterior.get(menor.getCliente());		
+							break;
+						}
+					}
 				}
 				return caminho;
 			}
@@ -69,17 +76,30 @@ public class Grafo {
 				break;
 			}
 			
+			//para cada aresta que liga o nodo, ele pega o nodo vizinho em que ela chega
+			//e atualiza a distancia dele e da onde ele veio
 			for(Aresta a : adj.get(menor.getCliente())) {
 				Vertice vizinho;
+				
+				//O vizinho é o vértice da aresta que não é o "menor"
 				if(a.getVerticeIda().getCliente().equals(menor.getCliente()))
 					vizinho = a.getVerticeSaida();
 				else
 					vizinho = a.getVerticeIda();
+				
+				//soma a distancia do menor para o nodo inicial com a distancia do vizinho "1"
 				int alt = distancia.get(menor.getCliente()) + vizinho.getDistancia();
+				
+				//Caso encontrou uma rota melhor, atualiza...
 				if(alt < distancia.get(vizinho.getCliente())) {
+					
+					//A nova distancia do vertice vizinho para o nodo inicial
 					distancia.put(vizinho.getCliente(), alt);
+					//Este vertice vizinho veio do menor
 					anterior.put(vizinho.getCliente(), menor);
 					
+					//Procura no heap pelo vizinho, tira ele, atualiza a distancia e
+					//poe de volta para reordenar o heap
 					for(Vertice v : heap) {
 						if(v.getCliente().equals(vizinho.getCliente())) {
 							heap.remove(v);
@@ -92,7 +112,7 @@ public class Grafo {
 			}
 			
 		}			
-		return new ArrayList<String>(distancia.keySet());
+		return null;
 	}
 
 	public void printaMap() {
@@ -105,9 +125,4 @@ public class Grafo {
 		}
 		System.out.println(str.toString());
 	}
-
-	public void printaPrioridade() {
-		// System.out.println(heap);
-	}
-
 }
