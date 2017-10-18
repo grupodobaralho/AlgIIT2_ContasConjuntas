@@ -69,6 +69,7 @@ public class Grafo {
 						}
 					}
 				}
+				System.out.println("dist: "+ distancia.get(fim));
 				return caminho;
 			}
 			
