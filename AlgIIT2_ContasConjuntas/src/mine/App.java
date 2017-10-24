@@ -21,63 +21,74 @@ public class App {
 
 	public static int tam;
 	public static String nodoInicial, nodoFinal;
-	public static Grafo g = new Grafo();
+	public static Grafo g;
 
 	public static void main(String[] args) {
 
 		Stack<Aresta> caminho;
 
 		System.out.println("######################## CASO 01 #############################");
+		g = new Grafo();
 		load("casos/caso01.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 02 #############################");
+		g = new Grafo();
 		load("casos/caso02.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 03 #############################");
+		g = new Grafo();
 		load("casos/caso03.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 04 #############################");
+		g = new Grafo();
 		load("casos/caso04.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 05 #############################");
+		g = new Grafo();
 		load("casos/caso05.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 06 #############################");
+		g = new Grafo();
 		load("casos/caso06.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 07 #############################");
+		g = new Grafo();
 		load("casos/caso07.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 08 #############################");
+		g = new Grafo();
 		load("casos/caso08.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 09 #############################");
+		g = new Grafo();
 		load("casos/caso09.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## CASO 10 #############################");
+		g = new Grafo();
 		load("casos/caso10.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
 		System.out.println("######################## meuCaso #############################");
+		g = new Grafo();
 		load("casos/meuCaso.txt");
 		caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
