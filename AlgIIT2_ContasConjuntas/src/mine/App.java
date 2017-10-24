@@ -25,73 +25,18 @@ public class App {
 
 	public static void main(String[] args) {
 
-		Stack<Aresta> caminho;
-
-		System.out.println("######################## CASO 01 #############################");
-		g = new Grafo();
 		load("casos/caso01.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 02 #############################");
-		g = new Grafo();
 		load("casos/caso02.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 03 #############################");
-		g = new Grafo();
 		load("casos/caso03.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 04 #############################");
-		g = new Grafo();
 		load("casos/caso04.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 05 #############################");
-		g = new Grafo();
 		load("casos/caso05.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 06 #############################");
-		g = new Grafo();
 		load("casos/caso06.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 07 #############################");
-		g = new Grafo();
 		load("casos/caso07.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 08 #############################");
-		g = new Grafo();
 		load("casos/caso08.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 09 #############################");
-		g = new Grafo();
 		load("casos/caso09.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## CASO 10 #############################");
-		g = new Grafo();
 		load("casos/caso10.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
-
-		System.out.println("######################## meuCaso #############################");
-		g = new Grafo();
+		load("casos/enunciadoTeste.txt");
 		load("casos/meuCaso.txt");
-		caminho = g.dijkstra(nodoInicial, nodoFinal);
-		printa(caminho);
 
 		System.out.println("\n----------------------------------------------------------------");
 		System.out.println("Programa concluído");
@@ -113,6 +58,10 @@ public class App {
 	}
 
 	public static void load(String arquivo) {
+		
+		g = new Grafo();
+		System.out.println("######################## " + arquivo.substring(6) + " #############################");
+		
 		Path path = Paths.get(arquivo);
 		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("ISO-8859-1")))) {
 			tam = Integer.parseInt(sc.next());
@@ -137,6 +86,9 @@ public class App {
 			System.out.println("A app apresentou o seguinte erro:");
 			e1.printStackTrace();
 		}
+		
+		Stack<Aresta> caminho = g.dijkstra(nodoInicial, nodoFinal);
+		printa(caminho);
 
 	}
 
