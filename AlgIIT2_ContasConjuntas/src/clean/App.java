@@ -1,4 +1,4 @@
-package Jaguar;
+package clean;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -8,9 +8,13 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class App {
+	
     private static int qntContas;
+    private static String nodoInicial, nodoFinal;
+    private static Grafo g;
     
 	public static void main(String[] args) {
+		
 		load("casos/caso01.txt");
 		load("casos/caso02.txt");
 		load("casos/caso03.txt");
@@ -34,9 +38,10 @@ public class App {
 	}
     
 	public static void load(String arquivo) {
-		Grafo G = new Grafo();
+		g = new Grafo();
+		System.out.println("######################## " + arquivo.substring(6) + " #############################");		
 		Path path = Paths.get(arquivo);
-		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("utf8")))) {
+		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("ISO-8859-1")))) {
 			qntContas = Integer.parseInt(sc.next());
 			String nroConta, nome1, nome2;
 			int cont = qntContas;
@@ -44,22 +49,23 @@ public class App {
 				nroConta = sc.next();
 				nome1 = sc.next();
 				nome2 = sc.next();
-				G.montaGrafo(nroConta, nome1, nome2);
-				cont--;				
+				cont--;					
+				g.montaGrafo(nroConta, nome1, nome2);
 			}
-			String nodoInicial = sc.next();
-			String nodoFinal = sc.next();
-			System.out.println("#################### " + arquivo + " ####################");
+			nodoInicial = sc.next();
+			nodoFinal = sc.next();	
 			System.out.println("De " + nodoInicial + " para " + nodoFinal);
-			G.bfs(nodoInicial, nodoFinal);	
-		
+			g.bfs(nodoInicial, nodoFinal);	
 		} catch (IOException e) {
-			System.out.println("FALHOU");
+			System.err.println("Erro de IO: ");
 			e.printStackTrace();
+			System.exit(1);
 		} catch (Throwable e1) {
-			System.out.println("A app apresentou o seguinte erro:");
+			System.out.println("A app apresentou o seguinte erro: ");
 			e1.printStackTrace();
+			System.exit(1);
 		}
+
 
 	}
 }

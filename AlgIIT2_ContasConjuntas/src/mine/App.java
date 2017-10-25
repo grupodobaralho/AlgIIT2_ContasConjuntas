@@ -57,36 +57,30 @@ public class App {
 		}
 	}
 
-	public static void load(String arquivo) {
-		
+	public static void load(String arquivo) {		
 		g = new Grafo();
-		System.out.println("######################## " + arquivo.substring(6) + " #############################");
-		
+		System.out.println("######################## " + arquivo.substring(6) + " #############################");		
 		Path path = Paths.get(arquivo);
 		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("ISO-8859-1")))) {
 			tam = Integer.parseInt(sc.next());
-			// System.out.println(tam);
 			String idConta = "", cliente1 = "", cliente2 = "";
 			int cont = tam;
 			while (cont > 0) {
 				idConta = sc.next();
 				cliente1 = sc.next();
 				cliente2 = sc.next();
-				// System.out.println(nConta + " " + p1 + " " + p2); //PRINT
 				cont--;
 				g.addAresta(idConta, cliente1, cliente2);
 			}
 			nodoInicial = sc.next();
 			nodoFinal = sc.next();
-			// System.out.println(nodoInicial + " " + nodoFinal); //PRINT
 		} catch (IOException e) {
 			System.out.println("FALHOU");
 			e.printStackTrace();
 		} catch (Throwable e1) {
 			System.out.println("A app apresentou o seguinte erro:");
 			e1.printStackTrace();
-		}
-		
+		}		
 		Stack<Aresta> caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);
 
