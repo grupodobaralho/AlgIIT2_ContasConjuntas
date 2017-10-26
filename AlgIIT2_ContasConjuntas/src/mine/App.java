@@ -5,9 +5,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -75,11 +72,13 @@ public class App {
 			nodoInicial = sc.next();
 			nodoFinal = sc.next();
 		} catch (IOException e) {
-			System.out.println("FALHOU");
+			System.err.println("Erro de IO: ");
 			e.printStackTrace();
+			System.exit(1);
 		} catch (Throwable e1) {
-			System.out.println("A app apresentou o seguinte erro:");
+			System.out.println("A app apresentou o seguinte erro: ");
 			e1.printStackTrace();
+			System.exit(1);
 		}		
 		Stack<Aresta> caminho = g.dijkstra(nodoInicial, nodoFinal);
 		printa(caminho);

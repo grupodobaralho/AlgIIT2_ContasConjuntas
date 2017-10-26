@@ -6,13 +6,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.Stack;
 
+/** @author1 Israel Deorce @author2 Hercilio Ortiz */
 public class App {
 	
     private static int qntContas;
     private static String nodoInicial, nodoFinal;
     private static Grafo g;
     
+    /**
+     * O Main passa como parametro os arquivos de teste para o metodo
+     * que faz a leitura dos arquivos e finaliza o trabalho.
+     * @param args
+     */
 	public static void main(String[] args) {
 		
 		load("casos/caso01.txt");
@@ -36,7 +43,28 @@ public class App {
 		System.out.println("Em: 18/10/2017");
 		
 	}
+	
+	/**
+	 * Metodo auxiliar que verifica se um caminho existe vai apresentando
+	 * os resultados enquanto desempilha a pilha de caminho.
+	 * @param caminho
+	 */
+	public static void printa(Stack<Aresta> caminho) {
+		System.out.println("@De: " + nodoInicial + " @Para: " + nodoFinal);
+		if (caminho == null) {
+			System.out.println("Nao existe conexao");
+		} else {
+			while (!caminho.isEmpty()) {
+				System.out.println(caminho.pop());
+			}
+		}
+	}
     
+	/**
+	 * Metodo que carrega e popula o grafo com os dados de um arquivo 
+	 * passado como parametro.
+	 * @param arquivo
+	 */
 	public static void load(String arquivo) {
 		g = new Grafo();
 		System.out.println("######################## " + arquivo.substring(6) + " #############################");		
@@ -50,12 +78,10 @@ public class App {
 				nome1 = sc.next();
 				nome2 = sc.next();
 				cont--;					
-				g.montaGrafo(nroConta, nome1, nome2);
+				g.addAresta(nroConta, nome1, nome2);
 			}
 			nodoInicial = sc.next();
 			nodoFinal = sc.next();	
-			System.out.println("De " + nodoInicial + " para " + nodoFinal);
-			g.bfs(nodoInicial, nodoFinal);	
 		} catch (IOException e) {
 			System.err.println("Erro de IO: ");
 			e.printStackTrace();
@@ -65,6 +91,9 @@ public class App {
 			e1.printStackTrace();
 			System.exit(1);
 		}
+		
+		Stack<Aresta> caminho = g.shortestPathBFS(nodoInicial, nodoFinal);	
+		printa(caminho);
 
 
 	}

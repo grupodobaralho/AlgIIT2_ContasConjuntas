@@ -36,7 +36,7 @@ public class App {
 	public static void load(String arquivo) {
 		Grafo G = new Grafo();
 		Path path = Paths.get(arquivo);
-		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("utf8")))) {
+		try (Scanner sc = new Scanner(Files.newBufferedReader(path, Charset.forName("ISO-8859-1")))) {
 			qntContas = Integer.parseInt(sc.next());
 			String nroConta, nome1, nome2;
 			int cont = qntContas;

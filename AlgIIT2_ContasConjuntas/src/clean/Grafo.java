@@ -1,144 +1,131 @@
 package clean;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
-/**
- * Esta classe √© respons√°vel por criar todos os vertices e arestas do grafo,
- * fazer o caminhamento em largura do mesmo e, ainda, criar a String de s√°ida
- * do caminhamento.
- * 
- * Esta classe utiliza uma estrutura de dados de Hash Map para representar o grafo.
- * Para realizar o caminhamento utilizou-se outras tres HashMaps.
- * 
- * Para a analise da classe, tenha em mente que foi utilizado um m√©todo chamado
- * capturaVertice para garantir que toda Key dos HashMaps seja exatamente a mesma. 
- * 
- * @author Hercilio Martins Ortiz
- *
- */
+import java.util.Set;
+import java.util.Stack;
 
 public class Grafo {
-    private Map<Vertice, List<Aresta>> vertices = new HashMap<>();
-    private final int INFINITY = Integer.MAX_VALUE;
-	Map<Vertice, Integer> marca = new HashMap<>();
-    Map<Vertice, Integer> distancia = new HashMap<>();
-    Map<Vertice, ArrayList<Object>> anterior = new HashMap<>();
-    String caminho = "";
-    Vertice n1, n2;
-    Aresta As, Ad;
-    
+	/** @author1 Israel Deorce @author2 Hercilio Ortiz */
+	private Map<String, List<Aresta>> adj;			//Estrutura Hash para consulta de Arestas
+	private final int INFINITO = Integer.MAX_VALUE;	//Constante de valor m·ximo de um int
 
-	//Classe respons√°vel por criar toda a estrutura do grafo
-	public void montaGrafo(String nroConta, String nome1, String nome2) {
-		n1 = new Vertice(nome1);
-		n2 = new Vertice(nome2);
-		As =  new Aresta(nroConta, n2);
-		Ad =  new Aresta(nroConta, n1);
-		
-		if(capturaVertice(n1.getNome()) == null) {
-			vertices.put(n1, new ArrayList<Aresta>());
-			vertices.get(n1).add(As);			
+	public Grafo() {
+		adj = new HashMap<>();
+	}
+
+	/**
+	 * Adiciona as arestas na estrutura Hash de arestas "adj". Cada aresta È
+	 * referente ‡ uma conta conjunta e possui dois verticies que representam um
+	 * cliente cada
+	 */
+	public void addAresta(String idConta, String cliente1, String cliente2) {
+		Aresta novaAresta = new Aresta(idConta, cliente1, cliente2);
+		if (adj.containsKey(cliente1)) {
+			adj.get(cliente1).add(novaAresta);
 		} else {
-			vertices.get(capturaVertice(n1.getNome())).add(As);
+			adj.put(cliente1, new ArrayList<Aresta>());
+			adj.get(cliente1).add(novaAresta);
 		}
-		
-		if(capturaVertice(n2.getNome()) == null) {
-			vertices.put(n2, new ArrayList<Aresta>());
-			vertices.get(n2).add(Ad);
+
+		if (adj.containsKey(cliente2)) {
+			adj.get(cliente2).add(novaAresta);
+		} else {
+			adj.put(cliente2, new ArrayList<Aresta>());
+			adj.get(cliente2).add(novaAresta);
+		}
+	}
+
+	/**
+	 * Algoritmo de busca de menor caminho de um nodoInicial ‡ um final.
+	 * Ele È uma adaptaÁ„o do Breadth-first search
+	 */
+	public Stack<Aresta> shortestPathBFS(String nodoInicial, String nodoFinal) {
+		Map<String, Integer> mark = new HashMap<>();	//Marca os nodos ja visitados
+		Map<String, Integer> distTo = new HashMap<>();	//Armazena a distancia (nao foi utilizada na proposta do trab)
+		Map<String, String> edgeTo = new HashMap<>();	//Armazena o nodo anterior mais proximo (menor caminho)
+		Queue<String> queue = new Queue<String>();		//Fila auxiliar para o BFS
+		Set<String> vEnchergados = new HashSet<>();		//Set para evitar problemas com loops (diferencial do BFS comum)
+		boolean achouCaminho = false;					//Flag para sinalizar a existencia de um caminho (economia)
+
+		//Popula as estruturas inicializadas acima. Assumimos distancia infinita
+		//para todos os vertices, tirando o inicial que possui distancia 0 para si.
+		for (String v : adj.keySet()) {
+			if (v.equals(nodoInicial)) {
+				distTo.put(v, 0);
+			} else {
+				distTo.put(v, INFINITO);
+			}
+			mark.put(v, 0);
+			edgeTo.put(v, null);
+		}
+
+		distTo.put(nodoInicial, 0);
+		queue.enqueue(nodoInicial);
+
+		//o BFS termina somente quando a fila estiver vazia (
+		while (!queue.isEmpty()) {
+			String vProximo = queue.dequeue();
+			vEnchergados.add(vProximo);
+			mark.put(vProximo, 1);
+			for (Aresta aresta : adj.get(vProximo)) {
+				String vS = aresta.verticeSaida;
+				String vC = aresta.verticeChegada;
+				if (!vEnchergados.contains(vS) || !vEnchergados.contains(vC)) {
+					if (vProximo.equals(vS) && mark.get(vC) == 0) {
+						distTo.put(vC, distTo.get(vProximo) + 1);
+						edgeTo.put(vC, vProximo);
+						queue.enqueue(vC);
+						if (vC.equals(nodoFinal)) {
+							achouCaminho = true;
+							vProximo = nodoFinal;
+							break;						}
+					} else if (mark.get(vS) == 0) {
+						distTo.put(vS, distTo.get(vProximo) + 1);
+						edgeTo.put(vS, vProximo);
+						queue.enqueue(vS);
+						if (vS.equals(nodoFinal)) {
+							achouCaminho = true;
+							vProximo = nodoFinal;
+							break;
+						}
+					}
+				}
+				vEnchergados.add(vS);
+				vEnchergados.add(vC);
+			}
 			
-		} else {
-			vertices.get(capturaVertice(n2.getNome())).add(Ad);
+			//Se encontramos um caminho, voltamos o edgeTo e devolvemos uma pilha com o resultado
+			if (achouCaminho) {
+				Stack<Aresta> caminho = new Stack<>();
+				while (edgeTo.get(vProximo) != null) {
+					for (Aresta aresta2 : adj.get(vProximo)) {
+						String nChegada = edgeTo.get(vProximo);
+						if (aresta2.getVerticeChegada().equals(nChegada)
+								|| aresta2.getVerticeSaida().equals(nChegada)) {
+							caminho.push(aresta2);
+							vProximo = nChegada;
+							break;
+						}
+					}
+				}
+				return caminho;
+			}
 		}
-		
-		
+		return null;
 	}
 	
-	//Classe que pega o a mesma Key para determinado vertice
-	public Vertice capturaVertice(String nome) {
-		Vertice v = new Vertice(nome);
-		//Esta fun√ß√£o √© respons√°vel por pegar a Key Objeto, com base em uma string
-		//Caso n√£o ecista tal objeto, retorna null
-		Vertice key = vertices.entrySet()
-                .stream()                       
-                .filter(e -> e.getKey().getNome().equals(nome))
-                .findFirst()
-                .map(Map.Entry::getKey)
-                .orElse(null);
-		return key;
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		for (Map.Entry<String, List<Aresta>> entry : adj.entrySet()) {
+			String key = entry.getKey();
+			List<Aresta> value = entry.getValue();
+			str.append(key + "->| ");
+			str.append(value + "\n");
+		}
+		return str.toString();
 	}
-	
-  
-	public void bfs(String nodoInicial, String nodoFinal) {
-		//Adapta as tres HashMaps para o caminhamento
-		Vertice s = capturaVertice(nodoInicial);
-		Vertice f = capturaVertice(nodoFinal);
-		Iterator<Vertice> keys = vertices.keySet().iterator();
-		
-		for(int i=0; i < vertices.size(); i++) {
-			String nome = keys.next().toString();
-			Vertice v = capturaVertice(nome);
-			//Como HashMap n permite value booleano, utilizou-se um inteiro
-			marca.put(v, 0);
-			distancia.put(v, INFINITY);
-			anterior.put(v, new ArrayList<>());
-		}	
-		bfs(s,f);
-		System.out.println(imprimeCaminho(f));
-	}
-
-
-	private void bfs(Vertice s, Vertice f) {
-		//Este metodo ir√° realziar o caminhamento em largura do grafo
-    	Queue<Vertice> q = new Queue<Vertice>();
-    	distancia.put(s, 0);
-    	marca.put(s, 1);
-        q.enqueue(s);
-
-        while (!q.isEmpty()) {
-        	//quando o vertice alvo for atinjido, o caminhamento para.
-        	if(hasPathTo(f)) return;
-            Vertice v = q.dequeue();
-            for (Aresta w1 : vertices.get(v)) {
-            	Vertice w = capturaVertice(w1.getDestino().getNome());
-                if (marca.get(w) == 0) {            	
-                    anterior.get(w).add(v);
-                    anterior.get(w).add(w1);
-                    distancia.put(w, distancia.get(v) + 1);
-                    marca.put(w, marca.get(w) + 1);
-                    q.enqueue(w);
-                } 
-            }
-        } 
-	}
-	
-	//Metodo responsavel por verificar se o vertici j√° foi analisado.
-	public boolean hasPathTo(Vertice v) {
-		int bool = marca.get(v);
-        if(bool == 0) return false;
-        return true;
-    }
-    
-	//M√©todo que verifica a distancia do determinado vertici com base no original
-    public int distTo(Vertice v) {
-        return distancia.get(v);
-    }
-    
-    //Cria uma string q representa um caminhamento
-    public String imprimeCaminho(Object v) {
-    	if(distTo((Vertice) v) == 0) return caminho = anterior.get(v).toString();
-    	String verticeAtual = anterior.get(v).get(0).toString() + " "
-    						+ anterior.get(v).get(1).toString();
-    	imprimeCaminho(anterior.get(v).get(0));
-    	return caminho+= "\n-> " + verticeAtual;
-    }
 }
