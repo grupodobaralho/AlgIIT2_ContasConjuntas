@@ -93,7 +93,12 @@ public class Grafo {
 			anterior.put(v, new ArrayList<>());
 		}	
 		bfs(s,f);
-		System.out.println(imprimeCaminho(f));
+		if(imprimeCaminho(f) == null) {
+			System.out.println("Não existe caminho de " + s + " até " + f);
+		} else {
+			System.out.println(imprimeCaminho(f));
+		}
+		
 	}
 
 
@@ -135,6 +140,7 @@ public class Grafo {
     
     //Cria uma string q representa um caminhamento
     public String imprimeCaminho(Object v) {
+    	if(!hasPathTo((Vertice) v)) return null;
     	if(distTo((Vertice) v) == 0) return caminho = anterior.get(v).toString();
     	String verticeAtual = anterior.get(v).get(0).toString() + " "
     						+ anterior.get(v).get(1).toString();
