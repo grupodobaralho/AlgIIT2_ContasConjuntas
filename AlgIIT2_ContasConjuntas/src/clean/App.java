@@ -36,7 +36,7 @@ public class App {
 		load("casos/meuCaso.txt");
 		
 		System.out.println("\n----------------------------------------------------------------");
-		System.out.println("Programa concluído");
+		System.out.println("Programa concluï¿½do");
 		System.out.println("Autores:");
 		System.out.println("@Israel Deorce - israel.deorce@acad.pucrs.br");
 		System.out.println("@Hercilio Ortiz - hercilio.ortiz@acad.pucrs.br");
@@ -92,8 +92,10 @@ public class App {
 			System.exit(1);
 		}
 		
-		Stack<Aresta> caminho = g.shortestPathBFS(nodoInicial, nodoFinal);	
+		Stack<Aresta> caminho = g.shortestPathBFS(nodoInicial, nodoFinal);
+		g.fazImagem(nodoInicial, nodoFinal, caminho);
 		printa(caminho);
+		//chama bgl de fazer imagem
 
 
 	}
