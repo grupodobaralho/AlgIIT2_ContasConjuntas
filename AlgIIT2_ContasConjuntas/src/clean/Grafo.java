@@ -142,7 +142,7 @@ public class Grafo {
 	            "   text-size: 20;" +
 	            "}" +
 	            "node.marked {" +
-	            "	fill-color: red;" +
+	            "	fill-color: rgb(255, 102, 255);" +
 	            "}" +
 	            "node.start {" +
 	            "   fill-color: green;" +
@@ -205,7 +205,7 @@ public class Grafo {
 			String saida = caminho.get(i).getVerticeSaida();
 			String chegada = caminho.get(i).getVerticeChegada();
 			Edge e = g.getEdge(saida+chegada);
-			e.addAttribute("ui.style", "size: 3px; fill-color: rgb(255,255,0);");	
+			e.addAttribute("ui.style", "size: 3px; fill-color: rgb(255,0,0);");	
 		}
 		
 		// Solicita alta qualidade no desenho
