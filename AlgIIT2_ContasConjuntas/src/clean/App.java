@@ -8,13 +8,17 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.Stack;
 
-/** @author1 Israel Deorce @author2 Hercilio Ortiz */
+/** @author1 Israel Deorce @author2 Hercilio Ortiz 
+ * @email {israel.deorce, hercilio.ortiz}@acad.pucrs.br 
+ * @professor Marcelo Cohen
+ * @disciplina Algoritmos e Estruturas de Dados II
+ * @data 01 de Novembro de 2017
+ */
 public class App {
 	
     private static int qntContas;
     private static String nodoInicial, nodoFinal;
     private static Grafo g;
-    private static Stack<Aresta> caminho;
     
     /**
      * O Main passa como parametro os arquivos de teste para o metodo
@@ -23,24 +27,23 @@ public class App {
      */
 	public static void main(String[] args) {
 		
-		load("casos/caso01.txt");
-		g.fazImagem(nodoInicial, nodoFinal, caminho);
-		load("casos/caso02.txt");
-		load("casos/caso03.txt");
-		load("casos/caso04.txt");
-		load("casos/caso05.txt");
-		load("casos/caso06.txt");
-		load("casos/caso07.txt");
-		load("casos/caso08.txt");
-		load("casos/caso09.txt");
-		load("casos/caso10.txt");
-		load("casos/enunciadoTeste.txt");
-		g.fazImagem(nodoInicial, nodoFinal, caminho);
-		load("casos/meuCaso.txt");
-		g.fazImagem(nodoInicial, nodoFinal, caminho);
+		//Passando o arquivo a ser carregado como parametro, 
+		//e uma flag para printar o grafo em uma interface grafica
+		load("casos/caso01.txt", false);
+		load("casos/caso02.txt", false);
+		load("casos/caso03.txt", false);
+		load("casos/caso04.txt", false);
+		load("casos/caso05.txt", false);
+		load("casos/caso06.txt", false);
+		load("casos/caso07.txt", false);
+		load("casos/caso08.txt", false);
+		load("casos/caso09.txt", false);
+		load("casos/caso10.txt", false);
+		load("casos/enunciadoTeste.txt", true);
+		load("casos/meuCaso.txt", true);
 		
 		System.out.println("\n----------------------------------------------------------------");
-		System.out.println("Programa concluido");
+		System.out.println("Programa concluidodo");
 		System.out.println("Autores:");
 		System.out.println("@Israel Deorce - israel.deorce@acad.pucrs.br");
 		System.out.println("@Hercilio Ortiz - hercilio.ortiz@acad.pucrs.br");
@@ -69,7 +72,7 @@ public class App {
 	 * passado como parametro.
 	 * @param arquivo
 	 */
-	public static void load(String arquivo) {
+	public static void load(String arquivo, boolean mostrarGrafico) {
 		g = new Grafo();
 		System.out.println("######################## " + arquivo.substring(6) + " #############################");		
 		Path path = Paths.get(arquivo);
@@ -96,8 +99,11 @@ public class App {
 			System.exit(1);
 		}
 		
-		caminho = g.shortestPathBFS(nodoInicial, nodoFinal);
+		Stack<Aresta> caminho = g.shortestPathBFS(nodoInicial, nodoFinal);
+		if(mostrarGrafico)
+			g.fazImagem(nodoInicial, nodoFinal, caminho);
 		printa(caminho);
+
 
 	}
 }

@@ -207,6 +207,7 @@ public class Grafo {
 		for(int i=0; i<caminho.size(); i++) {
 			String saida = caminho.get(i).getVerticeSaida();
 			String chegada = caminho.get(i).getVerticeChegada();
+			System.out.println(saida + chegada);
 			Edge e = g.getEdge(saida+chegada);
 			e.addAttribute("ui.style", "size: 3px; fill-color: rgb(255,0,0);");	
 		}
