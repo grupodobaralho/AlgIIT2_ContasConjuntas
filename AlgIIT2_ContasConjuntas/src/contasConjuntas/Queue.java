@@ -1,4 +1,4 @@
-package Jaguar;
+package contasConjuntas;
 /******************************************************************************
  *  Compilation:  javac Queue.java
  *  Execution:    java Queue < input.txt

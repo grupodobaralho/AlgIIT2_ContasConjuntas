@@ -1,4 +1,4 @@
-package clean;
+package contasConjuntas;
 
 public class Aresta {
 	
