@@ -14,6 +14,7 @@ public class App {
     private static int qntContas;
     private static String nodoInicial, nodoFinal;
     private static Grafo g;
+    private static Stack<Aresta> caminho;
     
     /**
      * O Main passa como parametro os arquivos de teste para o metodo
@@ -23,6 +24,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		load("casos/caso01.txt");
+		g.fazImagem(nodoInicial, nodoFinal, caminho);
 		load("casos/caso02.txt");
 		load("casos/caso03.txt");
 		load("casos/caso04.txt");
@@ -33,10 +35,12 @@ public class App {
 		load("casos/caso09.txt");
 		load("casos/caso10.txt");
 		load("casos/enunciadoTeste.txt");
+		g.fazImagem(nodoInicial, nodoFinal, caminho);
 		load("casos/meuCaso.txt");
+		g.fazImagem(nodoInicial, nodoFinal, caminho);
 		
 		System.out.println("\n----------------------------------------------------------------");
-		System.out.println("Programa conclu�do");
+		System.out.println("Programa concluido");
 		System.out.println("Autores:");
 		System.out.println("@Israel Deorce - israel.deorce@acad.pucrs.br");
 		System.out.println("@Hercilio Ortiz - hercilio.ortiz@acad.pucrs.br");
@@ -92,11 +96,8 @@ public class App {
 			System.exit(1);
 		}
 		
-		Stack<Aresta> caminho = g.shortestPathBFS(nodoInicial, nodoFinal);
-		g.fazImagem(nodoInicial, nodoFinal, caminho);
+		caminho = g.shortestPathBFS(nodoInicial, nodoFinal);
 		printa(caminho);
-		//chama bgl de fazer imagem
-
 
 	}
 }

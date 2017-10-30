@@ -17,16 +17,16 @@ import org.graphstream.graph.implementations.SingleGraph;
 public class Grafo {
 	/** @author1 Israel Deorce @author2 Hercilio Ortiz */
 	private Map<String, List<Aresta>> adj;			//Estrutura Hash para consulta de Arestas
-	private final int INFINITO = Integer.MAX_VALUE;	//Constante de valor m�ximo de um int
+	private final int INFINITO = Integer.MAX_VALUE;	//Constante de valor maximo de um int
 
 	public Grafo() {
 		adj = new HashMap<>();
 	}
 
 	/**
-	 * Adiciona as arestas na estrutura Hash de arestas "adj". Cada aresta �
-	 * referente � uma conta conjunta e possui dois verticies que representam um
-	 * cliente cada
+	 * Adiciona as arestas na estrutura Hash de arestas "adj". Cada aresta eh
+	 * referente a uma conta conjunta e possui dois verticies que representam um
+	 * cliente cada.
 	 */
 	public void addAresta(String idConta, String cliente1, String cliente2) {
 		Aresta novaAresta = new Aresta(idConta, cliente1, cliente2);
@@ -46,8 +46,8 @@ public class Grafo {
 	}
 
 	/**
-	 * Algoritmo de busca de menor caminho de um nodoInicial � um final.
-	 * Ele � uma adapta��o do Breadth-first search
+	 * Algoritmo de busca de menor caminho de um nodoInicial a um final.
+	 * Ele eh uma adaptacao do Breadth-first search
 	 */
 	public Stack<Aresta> shortestPathBFS(String nodoInicial, String nodoFinal) {
 		Map<String, Integer> mark = new HashMap<>();	//Marca os nodos ja visitados
@@ -135,6 +135,9 @@ public class Grafo {
 		return str.toString();
 	}
 	
+	/**
+	 * Metodo responsavel por gerar as imagens representativas dos grafos
+	 */
     public void fazImagem(String source, String end, Stack<Aresta> caminho) {
     	String styleSheet =
 	            "node {" +
@@ -157,7 +160,7 @@ public class Grafo {
     	
 		// Pego todos os vertices do grafo
     	Iterator<String> keys = adj.keySet().iterator();
-    	//Cria o grafo que sera utilizado
+    	// Cria o grafo que sera utilizado
 		Graph g = new SingleGraph("Print");
 		
 		//Copia para o grafo g os vertices do grafo PAI
