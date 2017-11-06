@@ -55,7 +55,7 @@ public class Grafo {
 		Map<String, Integer> distTo = new HashMap<>();	//Armazena a distancia (nao foi utilizada na proposta do trab)
 		Map<String, String> edgeTo = new HashMap<>();	//Armazena o nodo anterior mais proximo (menor caminho)
 		Queue<String> queue = new Queue<String>();		//Fila auxiliar para o BFS
-		Set<String> vEnchergados = new HashSet<>();		//Set para evitar problemas com loops (diferencial do BFS comum)
+		Set<String> vEnxergados = new HashSet<>();		//Set para evitar problemas com loops (diferencial do BFS comum)
 		boolean achouCaminho = false;					//Flag para sinalizar a existencia de um caminho (economia)
 
 		//Popula as estruturas inicializadas acima. Assumimos distancia infinita
@@ -76,12 +76,12 @@ public class Grafo {
 		//o BFS termina somente quando a fila estiver vazia (
 		while (!queue.isEmpty()) {
 			String vProximo = queue.dequeue();
-			vEnchergados.add(vProximo);
+			vEnxergados.add(vProximo);
 			mark.put(vProximo, 1);
 			for (Aresta aresta : adj.get(vProximo)) {
 				String vS = aresta.verticeSaida;
 				String vC = aresta.verticeChegada;
-				if (!vEnchergados.contains(vS) || !vEnchergados.contains(vC)) {
+				if (!vEnxergados.contains(vS) || !vEnxergados.contains(vC)) {
 					if (vProximo.equals(vS) && mark.get(vC) == 0) {
 						distTo.put(vC, distTo.get(vProximo) + 1);
 						edgeTo.put(vC, vProximo);
@@ -101,8 +101,8 @@ public class Grafo {
 						}
 					}
 				}
-				vEnchergados.add(vS);
-				vEnchergados.add(vC);
+				vEnxergados.add(vS);
+				vEnxergados.add(vC);
 			}
 			
 			//Se encontramos um caminho, voltamos o edgeTo e devolvemos uma pilha com o resultado

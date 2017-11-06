@@ -43,7 +43,7 @@ public class App {
 		load("casos/meuCaso.txt", true);
 		
 		System.out.println("\n----------------------------------------------------------------");
-		System.out.println("Programa concluidodo");
+		System.out.println("Programa concluido");
 		System.out.println("Autores:");
 		System.out.println("@Israel Deorce - israel.deorce@acad.pucrs.br");
 		System.out.println("@Hercilio Ortiz - hercilio.ortiz@acad.pucrs.br");
